@@ -2,7 +2,7 @@
   - name: Check if cudo-miner signing exists
     stat:
       path: /etc/apt/trusted.gpg.d/cudo.asc
-        register: stat_result
+    register: stat_result
         
   - name: Add cudo-miner signing
     become: yes

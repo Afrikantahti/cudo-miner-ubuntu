@@ -7,10 +7,10 @@
     driver: amdgpu-pro-20.20-1098277-ubuntu-20.04.tar.xz
     drivers_dir: "{{ local_home }}/amdgpu-pro-20-1098277-ubuntu-20.04"
 
-- name: Checking if JetBrains Mono font file exists
+- name: Checking if installer exists
   stat:
     path: "{{ drivers_dir }} /amdgpu-pro-install"
-    register: driver-exists
+  register: driver-exists
 
 - name: Download amdgpu-pro driver
   unarchive:
