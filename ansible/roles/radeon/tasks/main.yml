@@ -12,7 +12,7 @@
 - name: Create a directory if it does not exist
   file:
     path: "{{ local_home }}/amd-driver"
-  state: directory
+    state: directory
 
 - debug: var=drivers_dir
 
