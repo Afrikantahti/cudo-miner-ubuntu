@@ -14,11 +14,10 @@
     - { role: radeon, tags: "cudo" }
 
   tasks:
-     - name: Set hostname of the machine
-       become: yes
-       shell: "echo '{{ new_hostname }}' > '/etc/hostname'"
+    - name: Set hostname of the machine
+      become: yes
+      shell: "echo '{{ new_hostname }}' > '/etc/hostname'"
 
-    #  TEST IF DIR EXSISTS, IF NOT > CREATE IT
     - name: Create dirs
       file:
         path: "{{ item }}"
@@ -48,22 +47,7 @@
     - name: Install "oh-my-zsh"
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       when: not ohmyzsh.stat.exists
-    # - name: Clone dotfiles
-    #   git:
-    #     repo: "https://github.com/kevinjelnl/dotfiles.git"
-    #     dest: "{{ local_home }}/dotfiles"
-    #     update: no
-    # - name: Set dotfiles
-    #   shell: ./install
-    #   args:
-    #     chdir: "{{ local_home }}/dotfiles"
-    # # change the remote of the repo to SSH
-    # git remote set-url origin git@github.com:kevinjelnl/dotfiles.git
-    # - name: Ensure a locale exists
-    #   become: yes
-    #   locale_gen:
-    #     name: "{{ region_loc }}"
-    #     state: present
+      
     - name: Test if submodule with gist is present
       stat:
         path: "{{ gist_file }}"
