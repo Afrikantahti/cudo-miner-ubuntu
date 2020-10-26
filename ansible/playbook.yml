@@ -23,21 +23,11 @@
         path: "{{ item }}"
         state: directory
       with_items:
-        - "{{ local_home }}/storage"
+        - "{{ local_home }}/amd-driver"
         - "{{ local_home }}/Apps"
         - "{{ local_home }}/.local/bin"
         - "{{ local_home }}/.local/share/fonts"
         - "{{ local_home }}/git"
-
-      #  files exists
-    - name: Create Files
-      file:
-        path: "{{ item }}"
-        state: file
-      with_items:
-        - "{{ local_home }}/linux-backup.sh"
-        - "{{ local_home }}/linux-backup.log"
-        - "{{ local_home }}/.zshrc.local"
 
     - name: Test if oh-my-zsh is present.
       stat:
@@ -48,17 +38,3 @@
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       when: not ohmyzsh.stat.exists
       
-    - name: Test if submodule with gist is present
-      stat:
-        path: "{{ gist_file }}"
-      register: dconfisthere
-
-
-      # planner personal information
-    - name: Set multiple crons
-      cron:
-        name: "{{ item.name }}"
-        special_time: "{{ item.time }}"
-        job: "{{ item.job }}"
-      loop:
-        - { name: "borg backup", time: "hourly", job: "linux-backup.sh" }
