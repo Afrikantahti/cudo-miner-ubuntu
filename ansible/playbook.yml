@@ -6,7 +6,7 @@
     local_user: "{{ ansible_user_id }}"
     local_home: "{{ lookup('env','HOME') }}"
     region_loc: "us_US.UTF-8"
-    new_hostname: miner- {{ ansible_date_time.iso8601_basic }}"
+    new_hostname: "miner-{{ ansible_date_time.iso8601_basic }}"
     
   roles:
     - { role: cudo, tags: "radeon" }
