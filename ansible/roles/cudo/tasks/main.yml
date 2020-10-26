@@ -1,5 +1,9 @@
 ---
-tasks:
+  - name: Check if cudo-miner signing exists
+    stat:
+      path: /etc/apt/trusted.gpg.d/cudo.asc
+        register: stat_result
+        
   - name: Add cudo-miner signing
     become: yes
     shell: wget -O /etc/apt/trusted.gpg.d/cudo.asc https://download.cudo.org/keys/pgp/apt.asc 
