@@ -1,19 +1,14 @@
 ---
-- name: Check if cudo-miner service exists
-    service_facts:
-  - debug:
-    msg: cudo-miner installed!
-    when: "'cudo-miner.service' in services"
-
+tasks:
   - name: Add cudo-miner signing
     become: yes
     shell: wget -O /etc/apt/trusted.gpg.d/cudo.asc https://download.cudo.org/keys/pgp/apt.asc 
-    when: "'cudo-miner.service' not in services"
+    when: not stat_result.stat.exists
 
   - name: Add cudo-miner repostiory
     become: yes
     shell: echo 'deb [arch=amd64] https://download.cudo.org/repo/apt/ stable main' | tee /etc/apt/sources.list.d/cudo.list
-    when: "'cudo-miner.service' not in services"
+    when: not stat_result.stat.exists
 
   - name: Install apt packages
     become: yes
