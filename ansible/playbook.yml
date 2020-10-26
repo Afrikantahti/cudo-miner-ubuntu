@@ -8,7 +8,6 @@
     region_loc: "us_US.UTF-8"
     new_hostname: "miner-{{ ansible_date_time.iso8601_basic }}"
     
--debug: var=new_hostname    
   roles:
     - { role: nvidia, tags: "nvdia" }
     - { role: radeon, tags: "cudo" }
@@ -19,10 +18,6 @@
       become: yes
       shell: "echo '{{ new_hostname }}' > '/etc/hostname'"
 
-    - name: Create a directory if it does not exist
-      file:
-        path: "{{ local_home }}/amd-driver"
-      state: directory
 
     - name: Test if oh-my-zsh is present.
       stat:
