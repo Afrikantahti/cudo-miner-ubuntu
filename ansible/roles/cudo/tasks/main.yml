@@ -66,6 +66,6 @@
         path: "{{ local_home }}/.oh-my-zsh"
       register: ohmyzsh
 
-    - name: Install "oh-my-zsh"
-      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-      when: not ohmyzsh.stat.exists
+  - name: Install "oh-my-zsh"
+    shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    when: not ohmyzsh.stat.exists
