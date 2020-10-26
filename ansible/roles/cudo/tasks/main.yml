@@ -47,6 +47,8 @@
       - lm-sensors  
       - opencl-amdgpu-pro-dev
       - clinfo
+      - zsh-syntax-highlighting
+      - zsh-autosuggestions
   - name: Remove apt packages
     become: yes
     apt:
