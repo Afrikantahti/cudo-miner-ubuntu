@@ -1,0 +1,29 @@
+---
+- debug: var=local_user
+
+- set_fact:
+    tempdir: /var/tmp/pline_fonts
+    download: "{{ local_home }}/Download"
+    driver: amdgpu-pro-20.20-1098277-ubuntu-20.04.tar.xz
+    drivers_dir: "{{ local_home }}/amdgpu-pro-20-1098277-ubuntu-20.04"
+
+- name: Checking if JetBrains Mono font file exists
+  stat:
+    path: "{{ drivers_dir }} /amdgpu-pro-install"
+    register: driver-exists
+
+- name: Download amdgpu-pro driver
+  unarchive:
+    src: wget https://drivers.amd.com/drivers/linux/ {{ driver }} --referer https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux-20-20
+    dest: "{{ local_home  }}/"
+    when: driver-exists.stat.exists == false
+
+- name: Install amdgpu-pro headless drivers (ubuntu-server 20.04)
+  become: yes
+  shell: "{{ drivers_dir }}/amdgpu-pro-install -y --opencl=pal,legacy,rocm --headless"
+
+# TODO Write these to /etc/default/grub if not exists 
+# GRUB_CMDLINE_LINUX_DEFAULT="text amdgpu.ppfeaturemask=0xffffffff" 
+# sudo update-grub && sudo update-grub2 && sudo update-initramfs -u -k all
+
+

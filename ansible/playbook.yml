@@ -1,0 +1,80 @@
+---
+# populate a fresh Pop!_os instance
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    local_user: "{{ ansible_user_id }}"
+    local_home: "{{ lookup('env','HOME') }}"
+    region_loc: "us_US.UTF-8"
+    new_hostname: miner- {{ ansible_date_time.iso8601_basic }}"
+    
+  roles:
+    - { role: cudo, tags: "radeon" }
+    - { role: nvidia, tags: "nvdia" }
+    - { role: radeon, tags: "cudo" }
+
+  tasks:
+     - name: Set hostname of the machine
+       become: yes
+       shell: "echo '{{ new_hostname }}' > '/etc/hostname'"
+
+    #  TEST IF DIR EXSISTS, IF NOT > CREATE IT
+    - name: Create dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ local_home }}/storage"
+        - "{{ local_home }}/Apps"
+        - "{{ local_home }}/.local/bin"
+        - "{{ local_home }}/.local/share/fonts"
+        - "{{ local_home }}/git"
+
+      #  files exists
+    - name: Create Files
+      file:
+        path: "{{ item }}"
+        state: file
+      with_items:
+        - "{{ local_home }}/linux-backup.sh"
+        - "{{ local_home }}/linux-backup.log"
+        - "{{ local_home }}/.zshrc.local"
+
+    - name: Test if oh-my-zsh is present.
+      stat:
+        path: "{{ local_home }}/.oh-my-zsh"
+      register: ohmyzsh
+
+    - name: Install "oh-my-zsh"
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      when: not ohmyzsh.stat.exists
+    # - name: Clone dotfiles
+    #   git:
+    #     repo: "https://github.com/kevinjelnl/dotfiles.git"
+    #     dest: "{{ local_home }}/dotfiles"
+    #     update: no
+    # - name: Set dotfiles
+    #   shell: ./install
+    #   args:
+    #     chdir: "{{ local_home }}/dotfiles"
+    # # change the remote of the repo to SSH
+    # git remote set-url origin git@github.com:kevinjelnl/dotfiles.git
+    # - name: Ensure a locale exists
+    #   become: yes
+    #   locale_gen:
+    #     name: "{{ region_loc }}"
+    #     state: present
+    - name: Test if submodule with gist is present
+      stat:
+        path: "{{ gist_file }}"
+      register: dconfisthere
+
+
+      # planner personal information
+    - name: Set multiple crons
+      cron:
+        name: "{{ item.name }}"
+        special_time: "{{ item.time }}"
+        job: "{{ item.job }}"
+      loop:
+        - { name: "borg backup", time: "hourly", job: "linux-backup.sh" }

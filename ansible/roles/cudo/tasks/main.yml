@@ -1,0 +1,61 @@
+---
+- name: Check if cudo-miner service exists
+    service_facts:
+  - debug:
+    msg: cudo-miner installed!
+    when: "'cudo-miner.service' in services"
+
+  - name: Add cudo-miner signing
+    become: yes
+    shell: wget -O /etc/apt/trusted.gpg.d/cudo.asc https://download.cudo.org/keys/pgp/apt.asc 
+    when: "'cudo-miner.service' not in services"
+
+  - name: Add cudo-miner repostiory
+    become: yes
+    shell: echo 'deb [arch=amd64] https://download.cudo.org/repo/apt/ stable main' | tee /etc/apt/sources.list.d/cudo.list
+    when: "'cudo-miner.service' not in services"
+
+  - name: Install apt packages
+    become: yes
+    ignore_errors: true
+    apt:
+      pkg:
+      - fzf
+      - htop
+      - neovim
+      - tmux
+      - tree
+      - zsh
+      - ranger
+      - ripgrep
+      - fd-find
+      - universal-ctags
+      - borgbackup
+      - yadm
+      - cudo-miner-core
+      - cudo-miner-service
+      - cudo-miner-cli
+      - cudo-miner-headless
+      - cudo-miner #This depends Xorg and minimum gnome desktop. However without, cudo-miner does not list gpu's
+      - wget
+      - build-essential 
+      - cmake 
+      - git 
+      - libuv1-dev 
+      - libssl-dev
+      - libhwloc-dev 
+      - libmicrohttpd-dev 
+      - lm-sensors  
+      - opencl-amdgpu-pro-dev
+      - clinfo
+  - name: Remove apt packages
+    become: yes
+    apt:
+      name:
+        ["something", "purge" ]
+      state: absent
+
+  - name: Remove dependencies that are no longer required
+    become: yes
+    apt:
+      autoremove: yes
