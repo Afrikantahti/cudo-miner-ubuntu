@@ -2,14 +2,13 @@
 - debug: var=local_user
 - debug: var=local_home
 
-name={{ lookup('env', 'USER") }} 
 
 - set_fact:
     tempdir: /var/tmp/pline_fonts
     download: "{{ local_home }}/Download"
     driver: amdgpu-pro-20.20-1098277-ubuntu-20.04.tar.xz
     drivers_dir: "{{ local_home }}/amd-driver"
-
+    name = {{ lookup('env', 'USER") }} 
 
 - name: Create a directory if it does not exist
   file:
@@ -41,6 +40,7 @@ name={{ lookup('env', 'USER") }}
 - name: add user to video group
   become: yes
   shell: usermod -a -G video {{ name }} 
+
   # TODO Write these to /etc/default/grub if not exists
 # GRUB_CMDLINE_LINUX_DEFAULT="text amdgpu.ppfeaturemask=0xffffffff"
 # sudo update-grub && sudo update-grub2 && sudo update-initramfs -u -k all
