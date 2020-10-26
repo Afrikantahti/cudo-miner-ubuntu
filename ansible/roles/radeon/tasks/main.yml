@@ -1,5 +1,4 @@
---
-
+---
 - debug: var=local_user
 - debug: var=local_home
 
