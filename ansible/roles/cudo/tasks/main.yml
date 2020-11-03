@@ -3,7 +3,11 @@
     stat:
       path: /etc/apt/trusted.gpg.d/cudo.asc
     register: stat_result
-        
+
+  - name: Prevent server sleep
+    become: yes
+    shell: systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
   - name: Add cudo-miner signing
     become: yes
     shell: wget -O /etc/apt/trusted.gpg.d/cudo.asc https://download.cudo.org/keys/pgp/apt.asc 
@@ -49,6 +53,7 @@
       - clinfo
       - zsh-syntax-highlighting
       - zsh-autosuggestions
+      - monit
   - name: Remove apt packages
     become: yes
     apt:
