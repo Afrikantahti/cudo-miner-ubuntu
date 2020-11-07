@@ -25,7 +25,7 @@ $ make run_role tag=radeon
 
 [ ] amd GRUB_CMDLINE_LINUX_DEFAULT
 
-[ ] nvidia cuda
+[X] nvidia cuda
 
 [ ] ssh server
 

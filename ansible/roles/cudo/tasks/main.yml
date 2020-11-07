@@ -54,6 +54,11 @@
       - zsh-syntax-highlighting
       - zsh-autosuggestions
       - monit
+      - nvidia-driver-440
+      - nvidia-cuda-toolkit
+      - nvidia-cuda-toolkit-gcc
+      - nvidia-cuda-dev
+      - nvidia-cuda-gdb
   - name: Remove apt packages
     become: yes
     apt:
