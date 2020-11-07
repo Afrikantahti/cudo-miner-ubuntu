@@ -24,8 +24,12 @@ $ make run_role tag=radeon
 ### TODO
 
 [ ] amd GRUB_CMDLINE_LINUX_DEFAULT
+
 [ ] nvidia cuda
+
 [ ] ssh server
+
 [ ] zerotier
 
-Modified from https://github.com/kevinjelnl/setup-pop_os.git
+Modified from:
+https://github.com/kevinjelnl/setup-pop_os.git
