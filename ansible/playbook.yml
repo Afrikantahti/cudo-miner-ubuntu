@@ -9,7 +9,6 @@
     new_hostname: "miner-{{ ansible_date_time.iso8601_basic }}"
     
   roles:
-    - { role: nvidia, tags: "nvdia" }
     - { role: radeon, tags: "cudo" }
     - { role: cudo, tags: "radeon" }
 
