@@ -6,7 +6,7 @@
 - set_fact:
     tempdir: /var/tmp/pline_fonts
     download: "{{ local_home }}/Download"
-    driver: amdgpu-pro-20.20-1098277-ubuntu-20.04.tar.xz
+    driver: amdgpu-pro-20.45-1164792-ubuntu-20.04.tar.xz
     drivers_dir: "{{ local_home }}/amd-driver"
 
 - name: Create a directory if it does not exist
@@ -24,7 +24,7 @@
 - debug: var=driverexists.stat.exists
 
 - name: get driver
-  shell:  "wget -N https://drivers.amd.com/drivers/linux/{{ driver }} --referer https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux-20-20 -P {{ local_home }}"
+  shell:  "wget -N https://drivers.amd.com/drivers/linux/{{ driver }} --referer https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux-20-45 -P {{ local_home }}"
   when: driverexists.stat.exists == false
 
 - name: Extract
