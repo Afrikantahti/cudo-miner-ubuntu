@@ -33,7 +33,7 @@
 
 - name: Install amdgpu-pro headless drivers (ubuntu-server 20.04)
   become: yes
-  shell: "{{ drivers_dir }}/amdgpu-pro-install -y --opencl=pal,legacy --headless"
+  shell: "{{ drivers_dir }}/amdgpu-pro-install --opencl=legacy,pal,rocr --headless -y"
   when: driverexists.stat.exists == false
   
 - name: add user to video group
